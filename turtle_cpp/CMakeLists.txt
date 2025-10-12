@@ -12,13 +12,14 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(turtlesim REQUIRED)
+find_package(t_control_interfaces REQUIRED)
 
 
 
 
 add_executable(turtle_cpp_node src/turtle_cpp_node.cpp)
 
-ament_target_dependencies(turtle_cpp_node rclcpp geometry_msgs turtlesim)
+ament_target_dependencies(turtle_cpp_node rclcpp geometry_msgs turtlesim t_control_interfaces)
 
 install(TARGETS turtle_cpp_node DESTINATION lib/${PROJECT_NAME})
 
