@@ -13,7 +13,7 @@ find_package(std_srvs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(turtlesim REQUIRED)
 
-include_directories(include)
+
 
 
 add_executable(turtle_cpp_node src/turtle_cpp_node.cpp)
@@ -21,7 +21,7 @@ add_executable(turtle_cpp_node src/turtle_cpp_node.cpp)
 ament_target_dependencies(turtle_cpp_node rclcpp geometry_msgs turtlesim)
 
 install(TARGETS turtle_cpp_node DESTINATION lib/${PROJECT_NAME})
-install (DIRECTORY include/${PROJECT_NAME} DESTINATION lib/${PROJECT_NAME})
+
 
 
 if(BUILD_TESTING)
