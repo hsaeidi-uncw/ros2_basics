@@ -9,6 +9,8 @@ from geometry_msgs.msg import Twist
 
 from rclpy.qos import ReliabilityPolicy, QoSProfile
 
+from t_control_interfaces.srv import ControlParams
+
 class TurtlePyNode(Node):
 
     def __init__(self):
@@ -20,12 +22,23 @@ class TurtlePyNode(Node):
         QoSProfile(depth = 10, reliability=ReliabilityPolicy.RELIABLE))
         self.publisher_ = self.create_publisher(Twist, '/turtle1/cmd_vel',10)
         self.kp = 1
+        self.xd = 5.44
+        self.service_ = self.create_service(ControlParams, '/turtle1/p_control', self.get_service_callback)
+        
+    def get_service_callback(self, request, response):
+        self.xd = request.xd
+        self.kp = request.kp
+        response.success = True
+        response.position = self.xt
+        response.error = self.xd - self.xt
+        
+        return response
         
     def timer_callback(self):
         ros_time_stamp = self.get_clock().now()
         #self.get_logger().info(str(ros_time_stamp))
         cmd_msg = Twist()
-        cmd_msg.linear.x = self.kp*(8.0 - self.xt)
+        cmd_msg.linear.x = self.kp*(self.xd - self.xt)
         self.publisher_.publish(cmd_msg)
         
     def pose_callback(self, msg):
